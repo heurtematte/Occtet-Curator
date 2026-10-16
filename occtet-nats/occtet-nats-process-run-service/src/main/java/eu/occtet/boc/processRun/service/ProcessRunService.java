@@ -278,7 +278,9 @@ public class ProcessRunService {
 
         List<OrtIssue> toSaveIssues = new ArrayList<>();
         for (Issue issue : issues) {
-            OrtIssue ortIssue = ortIssueFactory.createOrtIssue(issue.getIdentifier().getName(),
+            // Issues that do not concern a package (e.g. raised by the evaluator or the reporter) have no identifier
+            String identifierName = issue.getIdentifier() != null ? issue.getIdentifier().getName() : null;
+            OrtIssue ortIssue = ortIssueFactory.createOrtIssue(identifierName,
                     issue.getSeverity().getValue(),
                     issue.getPurl(), issue.getAffectedPath(), issue.getMessage(), issue.getSource(),
                     issue.getResolutions(), issue.getTimestamp(), issue.getWorker(), project);
